@@ -1,0 +1,3 @@
+pandas
+kaggle
+opencc-python-reimplemented
