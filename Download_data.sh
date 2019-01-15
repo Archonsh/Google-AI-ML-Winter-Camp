@@ -1,5 +1,5 @@
 conda activate tfpy3
-pip install --user kaggle-cli
+pip install --user kaggle
 export PATH=~/.local/bin:$PATH
 
 cd ~
@@ -9,6 +9,6 @@ echo "{\"username\":\"archonsh\",\"key\":\"9969e262455eda17e17564ab5c5efa6a\"}" 
 chmod 600 ~/.kaggle/kaggle.json
 
 cd ~
-kaggle datasets download -d utmhikari/doubanmovieshortcomments
+kg datasets download -d utmhikari/doubanmovieshortcomments
 unzip doubanmovieshortcomments.zip
 rm doubanmovieshortcomments.zip
