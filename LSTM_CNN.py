@@ -63,9 +63,9 @@ for word, i in word_index.items():
 print("Embedding matrix completed")
 
 
-def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
+def LSTM_CNN_model_build(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
                  conv_size=32):
-    file_path = "LTSM_CNN_BEST_MODEL.hdf5"
+    file_path = "LTSM_CNN_MODEL.hdf5"
     check_point = ModelCheckpoint(file_path, monitor="val_loss", verbose=1,
                                   save_best_only=True, mode="min")
     early_stop = EarlyStopping(monitor="val_loss", mode="min", patience=3)
@@ -101,14 +101,14 @@ def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kern
     x = Dense(5, activation="sigmoid")(x)
     model = Model(inputs=inp, outputs=x)
     model.compile(loss="binary_crossentropy", optimizer=Adam(lr=lr, decay=lr_d), metrics=["categorical_accuracy"])
-    history = model.fit(X_train, y_ohe, batch_size=128, epochs=20, validation_split=0.1,
+    history = model.fit(X_train, y_ohe, batch_size=128, epochs=16, validation_split=0.1,
                         verbose=1, callbacks=[check_point, early_stop])
     model = load_model(file_path)
     return model
 
 
-LSTM_CNN_model = build_model1(lr=1e-3, lr_d=1e-10, units=64, spatial_dr=0.3, kernel_size1=3, kernel_size2=2,
-                              dense_units=32, dr=0.1, conv_size=32)
+LSTM_CNN_model = LSTM_CNN_model_build(lr=1e-3, lr_d=1e-9, units=64, spatial_dr=0.2, kernel_size1=3, kernel_size2=2,
+                              dense_units=32, dr=0.4, conv_size=32)
 
 
 # def build_model2(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
