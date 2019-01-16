@@ -63,7 +63,7 @@ for word, i in word_index.items():
 print("Embedding matrix completed")
 
 ohe = OneHotEncoder(sparse=False)
-y_ohe = ohe.fit_transform(train_df['Star'].reshape(-1, 1))
+y_ohe = ohe.fit_transform(train_df['Star'])
 
 def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
                  conv_size=32):
