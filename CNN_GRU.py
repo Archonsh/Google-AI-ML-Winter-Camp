@@ -86,7 +86,7 @@ def CNN_GRU_model(lr=10e-3, lr_d=10e-9, units=64, spatial_dr=0.2, kernel_size1=2
     x = concatenate([max_pool3_conv2, max_pool3_conv3, max_pool3_conv5])
 
     x = BatchNormalization()(x)
-    x_gru = Bidirectional(CuDNNGRU(units, return_sequences=True))(x)
+    x_gru = Bidirectional(CuDNNGRU(units, return_sequences=False))(x)
     x = BatchNormalization()(x_gru)
     x = Dropout(dr)(Dense(dense_units, activation='relu')(x))
     x = BatchNormalization()(x)
