@@ -42,7 +42,7 @@ X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
 
 word_index = tk.word_index  # num of words appeared
 nb_words = min(MAX_NB_FEATURES, len(word_index))
-print("word index = %d", word_index)
+print("word index = %d", len(word_index))
 print("# of words = %d", nb_words)
 
 
