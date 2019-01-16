@@ -55,7 +55,7 @@ print("Test accuracy: %f on %s" % (acc, MODEL_NAME))
 print("Below is selections of wrongly predicted points:")
 
 for i in wrong_indices[:50]:
-    print(test_df[i])
+    print(test_df[i]['Comment'])
 
 
 
