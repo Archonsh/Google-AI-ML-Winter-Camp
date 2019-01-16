@@ -75,19 +75,15 @@ def CNN_GRU_model(lr=10e-3, lr_d=10e-9, units=64, spatial_dr=0.2, kernel_size1=2
     x1 = SpatialDropout1D(spatial_dr)(x)
 
     x2 = Conv1D(conv_size, kernel_size=kernel_size1, padding='valid', kernel_initializer='he_uniform')(x1)
-    avg_pool3_conv2 = GlobalAveragePooling1D()(x2)
-    max_pool3_conv2 = GlobalMaxPooling1D()(x2)
+    max_pool3_conv2 = MaxPooling1D(pool_size=kernel_size1)(x2)
 
     x3 = Conv1D(conv_size, kernel_size=kernel_size2, padding='valid', kernel_initializer='he_uniform')(x1)
-    avg_pool3_conv3 = GlobalAveragePooling1D()(x3)
-    max_pool3_conv3 = GlobalMaxPooling1D()(x3)
+    max_pool3_conv3 = MaxPooling1D(pool_size=kernel_size2)(x3)
 
     x5 = Conv1D(conv_size, kernel_size=kernel_size3, padding='valid', kernel_initializer='he_uniform')(x1)
-    avg_pool3_conv5 = GlobalAveragePooling1D()(x5)
-    max_pool3_conv5 = GlobalMaxPooling1D()(x5)
+    max_pool3_conv5 = MaxPooling1D(pool_size=kernel_size3)(x5)
 
-    x = concatenate([avg_pool3_conv2, max_pool3_conv2, avg_pool3_conv3, max_pool3_conv3,
-                     avg_pool3_conv5, max_pool3_conv5])
+    x = concatenate([max_pool3_conv2, max_pool3_conv3, max_pool3_conv5])
 
     x = BatchNormalization()(x)
     x_gru = Bidirectional(CuDNNGRU(units, return_sequences=True))(x)
