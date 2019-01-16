@@ -60,8 +60,8 @@ def test_acc(MODEL_NAME):
     print("------------------------------------------------")
     print("Below is selections of wrongly predicted points:")
     for i in wrong_indices[:10]:
+        print("predicted: %d  real: %d" % (arg_rank[i][0], test_df['Star'][i]))
         print(test_df['Comment'][i])
-
 
 if __name__ == '__main__':
     MODEL_NAME = sys.argv[1]
