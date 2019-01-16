@@ -39,8 +39,8 @@ train_tokenized = tk.texts_to_sequences(train_df['Comment'])
 test_tokenized = tk.texts_to_sequences(test_df['Comment'])
 print("Tokenize complete")
 
-# X_train = pad_sequences(train_tokenized, maxlen=MAX_NB_WORDS)  # pad all sentence to same length
-# X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
+X_train = pad_sequences(train_tokenized, maxlen=MAX_NB_WORDS)  # pad all sentence to same length
+X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
 #
 # ohe = OneHotEncoder(sparse=False)
 # y_ohe = ohe.fit_transform(train_df['Star'].values.reshape(-1,1))
@@ -168,12 +168,12 @@ print('One hot encoding complete')
 
 
 LSTM_CNN_model = load_model("LTSM_CNN_BEST_MODEL.hdf5")
-loss, acc = LSTM_CNN_model.evaluate(test_tokenized, y=y_ohe, batch_size=384, verbose=1)
+loss, acc = LSTM_CNN_model.evaluate(X_test, y=y_ohe, batch_size=384, verbose=1)
 print("Test loss: %f, accuracy: %f on LSTM_CNN_GRU", loss, acc)
 
 
 LSTM_CNN_model = load_model("PARALLEL_LTSM_GRU_BEST_MODEL.hdf5")
-loss, acc = LSTM_CNN_model.evaluate(test_tokenized, y=y_ohe, batch_size=384, verbose=1)
+loss, acc = LSTM_CNN_model.evaluate(X_test, y=y_ohe, batch_size=384, verbose=1)
 print("Test loss: %f, accuracy: %f on LSTM_PARALLEL_GRU_CNN", loss, acc)
 
 
