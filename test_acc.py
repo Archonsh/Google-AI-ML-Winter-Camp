@@ -46,9 +46,19 @@ ohe = OneHotEncoder(sparse=False)
 y_ohe = ohe.fit_transform(test_df['Star'].values.reshape(-1,1))
 print('One hot encoding complete')
 
-LSTM_CNN_model = load_model(MODEL_NAME + '.hdf5')
-loss, acc = LSTM_CNN_model.evaluate(X_test, y=y_ohe, batch_size=384, verbose=1)
-print("Test loss: %f, accuracy: %f on %s" % (loss, acc, MODEL_NAME))
+pred_model = load_model(MODEL_NAME + '.hdf5')
+pred = pred_model.predict(X_test, y=y_ohe, batch_size=384, verbose=1)
+wrong_indices = [i for i, v in enumerate(pred) if pred[i]!=y_ohe[i]]
+
+acc = (1 - len(wrong_indices)) / float(len(y_ohe))
+print("Test accuracy: %f on %s" % (acc, MODEL_NAME))
+print("Below is selections of wrongly predicted points:")
+
+for i in wrong_indices[:50]:
+    print(test_df[i])
+
+
+
 
 
 
