@@ -16,13 +16,15 @@ import os
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 
-WORKING_FOLDER = os.curdir
+WORKING_FOLDER = "~/Google-AI-ML-Winter-Camp"
 EMBEDDING_NAME = "sgns.weibo.word"
 MAX_NB_WORDS = 500  # length of seq
 EMBEDDING_DIM = 300  # length of embedding
 MAX_NB_FEATURES = 500000  # max number of words in use
 
 ########################################################################
+
+print("Working folder %s" % WORKING_FOLDER)
 
 train_df = pd.read_csv(WORKING_FOLDER + '/DMSC_train.csv')
 test_df = pd.read_csv(WORKING_FOLDER + '/DMSC_test.csv')
