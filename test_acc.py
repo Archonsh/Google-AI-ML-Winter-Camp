@@ -48,7 +48,7 @@ print('One hot encoding complete')
 
 pred_model = load_model(MODEL_NAME + '.hdf5')
 pred = pred_model.predict(X_test, batch_size=384, verbose=1)
-print(y_ohe[5], pred[5], pred[4], test_df['Star'][i])
+print(y_ohe[5], pred[5], pred[4], test_df['Star'][5])
 wrong_indices = [i for i, v in enumerate(pred) if pred[i] != test_df['Star'][i]]
 
 
@@ -57,7 +57,7 @@ print("Test accuracy: %f on %s" % (acc, MODEL_NAME))
 print("Below is selections of wrongly predicted points:")
 
 for i in wrong_indices[:50]:
-    print(test_df[i]['Comment'])
+    print(test_df['Comment'][i])
 
 
 
