@@ -45,7 +45,7 @@ def test_acc(MODEL_NAME):
     y_ohe = ohe.fit_transform(test_df['Star'].values.reshape(-1, 1))
     print('One hot encoding complete')
 
-    pred_model = load_model(MODEL_NAME + '.hdf5')
+    pred_model = load_model(MODEL_NAME)
     pred = pred_model.predict(X_test, batch_size=384, verbose=1)
     # print(y_ohe[5], argmax(pred[5]), test_df['Star'][5])
     wrong_indices = [i for i, v in enumerate(pred) if argmax(pred[i]) != argmax(y_ohe[i])]
