@@ -54,16 +54,14 @@ wrong_indices = [i for i, v in enumerate(pred) if argmax(pred[i])+1
                  != test_df['Star'][i]]
 
 
-acc = (1 - len(wrong_indices)) / float(len(y_ohe))
+acc = 1 - len(wrong_indices) / float(len(y_ohe))
 print("Test accuracy: %f on %s" % (acc, MODEL_NAME))
 print("Below is selections of wrongly predicted points:")
 
-for i in wrong_indices[:50]:
+for i in wrong_indices[:10]:
     print(test_df['Comment'][i])
 
-
-
-
+pred_model.fit(X_test,y_ohe,batch_size=384,verbose=1)
 
 
 
