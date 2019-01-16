@@ -17,7 +17,7 @@ import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 
 WORKING_FOLDER = os.curdir
-EMBEDDING_NAME = 'sgns.zhihu.word'
+EMBEDDING_NAME = 'sgns.weibo.word'
 MAX_NB_WORDS = 500  # length of seq
 EMBEDDING_DIM = 300  # length of embedding
 MAX_NB_FEATURES = 500000  # max number of words in use
