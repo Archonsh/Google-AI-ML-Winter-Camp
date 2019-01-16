@@ -169,12 +169,13 @@ print('One hot encoding complete')
 
 LSTM_CNN_model = load_model("LTSM_CNN_BEST_MODEL.hdf5")
 loss, acc = LSTM_CNN_model.evaluate(X_test, y=y_ohe, batch_size=384, verbose=1)
-print("Test loss: %f, accuracy: %f on LSTM_CNN_GRU", loss, acc)
+print("Test loss: %f, accuracy: %f on LSTM_CNN_GRU" % (loss, acc))
 
 
 LSTM_CNN_model = load_model("PARALLEL_LTSM_GRU_BEST_MODEL.hdf5")
-loss, acc = LSTM_CNN_model.evaluate(X_test, y=y_ohe, batch_size=384, verbose=1)
-print("Test loss: %f, accuracy: %f on LSTM_PARALLEL_GRU_CNN", loss, acc)
+loss, acc = LSTM_CNN_model.evaluate(X_test
+                                    , y=y_ohe, batch_size=384, verbose=1)
+print("Test loss: %f, accuracy: %f on LSTM_PARALLEL_GRU_CNN" % ( loss, acc ))
 
 
 
