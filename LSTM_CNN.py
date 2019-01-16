@@ -16,6 +16,8 @@ import os
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 
+
+
 WORKING_FOLDER = "~/Google-AI-ML-Winter-Camp"
 EMBEDDING_NAME = "sgns.weibo.word"
 MAX_NB_WORDS = 500  # length of seq
@@ -23,6 +25,9 @@ EMBEDDING_DIM = 300  # length of embedding
 MAX_NB_FEATURES = 500000  # max number of words in use
 
 ########################################################################
+
+with open(WORKING_FOLDER + '/' + EMBEDDING_NAME) as f:
+    pass
 
 print("Working folder %s" % WORKING_FOLDER)
 
@@ -36,7 +41,7 @@ tk.fit_on_texts(train_df['Comment'])
 train_tokenized = tk.texts_to_sequences(train_df['Comment'])
 test_tokenized = tk.texts_to_sequences(test_df['Comment'])
 
-print(train_tokenized[1])
+#print(train_tokenized[1])
 print("Tokenize complete")
 
 X_train = pad_sequences(train_tokenized, maxlen=MAX_NB_WORDS)  # pad all sentence to same length
