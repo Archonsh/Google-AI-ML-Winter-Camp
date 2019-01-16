@@ -26,7 +26,7 @@ MAX_NB_FEATURES = 500000  # max number of words in use
 
 ########################################################################
 
-with open(WORKING_FOLDER + '/' + EMBEDDING_NAME) as f:
+with open(WORKING_FOLDER + r'/' + EMBEDDING_NAME) as f:
     pass
 
 print("Working folder %s" % WORKING_FOLDER)
