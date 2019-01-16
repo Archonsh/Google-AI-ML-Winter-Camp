@@ -63,7 +63,7 @@ for word, i in word_index.items():
 print("Embedding matrix completed")
 
 ohe = OneHotEncoder(sparse=False)
-y_ohe = ohe.fit_transform(train_df['star'].reshape(-1, 1))
+y_ohe = ohe.fit_transform(train_df['Star'].reshape(-1, 1))
 
 def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
                  conv_size=32):
@@ -111,7 +111,7 @@ def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kern
 
 LSTM_CNN_model = build_model1(lr=1e-3, lr_d=1e-10, units=64, spatial_dr=0.3, kernel_size1=3, kernel_size2=2,
                               dense_units=32, dr=0.1, conv_size=32)
-loss, acc = LSTM.evaluate(test_tokenized, y=test_df['star'], batch_size=384, verbose=1)
+loss, acc = LSTM.evaluate(test_tokenized, y=test_df['Star'], batch_size=384, verbose=1)
 print("Test loss: %f, accuracy: %f on LSTM_CNN_embedding_only", loss, acc)
 
 
