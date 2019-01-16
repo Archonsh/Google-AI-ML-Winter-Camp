@@ -63,7 +63,7 @@ for word, i in word_index.items():
 print("Embedding matrix completed")
 
 
-def CNN_GRU_model(lr=10e-3, lr_d=10e-9, units=64, spatial_dr=0.2, kernel_size1=2, kernel_size2=3, kernel_size3=5, dense_units=128, dr=0.5,
+def CNN_GRU_model(lr=0.003, lr_d=10e-9, units=64, spatial_dr=0.2, kernel_size1=2, kernel_size2=3, kernel_size3=5, dense_units=128, dr=0.3,
                  conv_size=32):
     file_path = "CNN_GRU_MODEL.hdf5"
     check_point = ModelCheckpoint(file_path, monitor="val_loss", verbose=1,
@@ -94,7 +94,7 @@ def CNN_GRU_model(lr=10e-3, lr_d=10e-9, units=64, spatial_dr=0.2, kernel_size1=2
     x = Dense(5, activation="sigmoid")(x)
     model = Model(inputs=inp, outputs=x)
     model.compile(loss="binary_crossentropy", optimizer=Adam(lr=lr, decay=lr_d), metrics=["accuracy"])
-    history = model.fit(X_train, y_ohe, batch_size=128, epochs=5, validation_split=0.1,
+    history = model.fit(X_train, y_ohe, batch_size=128, epochs=20, validation_split=0.1,
                         verbose=1, callbacks=[check_point, early_stop])
     model = load_model(file_path)
     return model
