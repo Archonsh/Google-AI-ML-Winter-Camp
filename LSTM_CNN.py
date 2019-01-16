@@ -41,7 +41,7 @@ X_train = pad_sequences(train_tokenized, maxlen=MAX_NB_WORDS)  # pad all sentenc
 X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
 
 word_index = tk.word_index  # num of words appeared
-nb_words = min(MAX_NB_FEATURES, word_index)
+nb_words = min(MAX_NB_FEATURES, len(word_index))
 print("word index = %d", word_index)
 print("# of words = %d", nb_words)
 
