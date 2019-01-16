@@ -26,9 +26,6 @@ MAX_NB_FEATURES = 500000  # max number of words in use
 
 ########################################################################
 
-with open(WORKING_FOLDER + r'/' + EMBEDDING_NAME) as f:
-    pass
-
 print("Working folder %s" % WORKING_FOLDER)
 
 train_df = pd.read_csv(WORKING_FOLDER + '/DMSC_train.csv')
@@ -54,7 +51,7 @@ print("# of words = %d" % nb_words)
 
 
 def get_coefs(word, *arr): return word, np.asarray(arr, dtype='float32')
-embedding_index = dict(get_coefs(*o.strip().split(" ")) for o in open(WORKING_FOLDER + '/' + EMBEDDING_NAME))
+embedding_index = dict(get_coefs(*o.strip().split(" ")) for o in open(WORKING_FOLDER + r'/' + EMBEDDING_NAME))
 
 embedding_matrix = np.zeros((nb_words + 1, EMBEDDING_DIM))
 for word, i in word_index.items():
