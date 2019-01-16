@@ -103,7 +103,7 @@ def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kern
     x = Dense(5, activation="sigmoid")(x)
     model = Model(inputs=inp, outputs=x)
     model.compile(loss="binary_crossentropy", optimizer=Adam(lr=lr, decay=lr_d), metrics=["accuracy"])
-    history = model.fit(X_train, y_ohe, batch_size=128, epochs=20, validation_split=0.1,
+    history = model.fit(X_train, y_ohe, batch_size=128, epochs=5, validation_split=0.1,
                         verbose=1, callbacks=[check_point, early_stop])
     model = load_model(file_path)
     return model
