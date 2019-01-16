@@ -65,9 +65,60 @@ for word, i in word_index.items():
 print("Embedding matrix completed")
 
 
-def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
+# def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
+#                  conv_size=32):
+#     file_path = "LTSM_CNN_BEST_MODEL.hdf5"
+#     check_point = ModelCheckpoint(file_path, monitor="val_loss", verbose=1,
+#                                   save_best_only=True, mode="min")
+#     early_stop = EarlyStopping(monitor="val_loss", mode="min", patience=3)
+#
+#     inp = Input(shape=(MAX_NB_WORDS,))
+#     x = Embedding(nb_words + 1, EMBEDDING_DIM, weights=[embedding_matrix], trainable=False)(inp)
+#     x1 = SpatialDropout1D(spatial_dr)(x)
+#
+#     x_gru = Bidirectional(CuDNNGRU(units, return_sequences=True))(x1)
+#     x1 = Conv1D(conv_size, kernel_size=kernel_size1, padding='valid', kernel_initializer='he_uniform')(x_gru)
+#     avg_pool1_gru = GlobalAveragePooling1D()(x1)
+#     max_pool1_gru = GlobalMaxPooling1D()(x1)
+#
+#     x3 = Conv1D(conv_size, kernel_size=kernel_size2, padding='valid', kernel_initializer='he_uniform')(x_gru)
+#     avg_pool3_gru = GlobalAveragePooling1D()(x3)
+#     max_pool3_gru = GlobalMaxPooling1D()(x3)
+#
+#     x_lstm = Bidirectional(CuDNNLSTM(units, return_sequences=True))(x1)
+#     x1 = Conv1D(conv_size, kernel_size=kernel_size1, padding='valid', kernel_initializer='he_uniform')(x_lstm)
+#     avg_pool1_lstm = GlobalAveragePooling1D()(x1)
+#     max_pool1_lstm = GlobalMaxPooling1D()(x1)
+#
+#     x3 = Conv1D(conv_size, kernel_size=kernel_size2, padding='valid', kernel_initializer='he_uniform')(x_lstm)
+#     avg_pool3_lstm = GlobalAveragePooling1D()(x3)
+#     max_pool3_lstm = GlobalMaxPooling1D()(x3)
+#
+#     x = concatenate([avg_pool1_gru, max_pool1_gru, avg_pool3_gru, max_pool3_gru,
+#                      avg_pool1_lstm, max_pool1_lstm, avg_pool3_lstm, max_pool3_lstm])
+#     x = BatchNormalization()(x)
+#     x = Dropout(dr)(Dense(dense_units, activation='relu')(x))
+#     x = BatchNormalization()(x)
+#     x = Dropout(dr)(Dense(int(dense_units / 2), activation='relu')(x))
+#     x = Dense(5, activation="sigmoid")(x)
+#     model = Model(inputs=inp, outputs=x)
+#     model.compile(loss="binary_crossentropy", optimizer=Adam(lr=lr, decay=lr_d), metrics=["accuracy"])
+#     history = model.fit(X_train, y_ohe, batch_size=128, epochs=5, validation_split=0.1,
+#                         verbose=1, callbacks=[check_point, early_stop])
+#     model = load_model(file_path)
+#     return model
+#
+#
+# LSTM_CNN_model = build_model1(lr=1e-3, lr_d=1e-10, units=64, spatial_dr=0.3, kernel_size1=3, kernel_size2=2,
+#                               dense_units=32, dr=0.1, conv_size=32)
+# loss, acc = LSTM.evaluate(test_tokenized, y=test_df['Star'], batch_size=384, verbose=1)
+# print("Test loss: %f, accuracy: %f on LSTM_CNN_embedding_only", loss, acc)
+
+
+
+def build_model2(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
                  conv_size=32):
-    file_path = "LTSM_CNN_BEST_MODEL.hdf5"
+    file_path = "PARALLEL_LTSM_GRU_BEST_MODEL.hdf5"
     check_point = ModelCheckpoint(file_path, monitor="val_loss", verbose=1,
                                   save_best_only=True, mode="min")
     early_stop = EarlyStopping(monitor="val_loss", mode="min", patience=3)
@@ -77,9 +128,9 @@ def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kern
     x1 = SpatialDropout1D(spatial_dr)(x)
 
     x_gru = Bidirectional(CuDNNGRU(units, return_sequences=True))(x1)
-    x1 = Conv1D(conv_size, kernel_size=kernel_size1, padding='valid', kernel_initializer='he_uniform')(x_gru)
-    avg_pool1_gru = GlobalAveragePooling1D()(x1)
-    max_pool1_gru = GlobalMaxPooling1D()(x1)
+    x2 = Conv1D(conv_size, kernel_size=kernel_size1, padding='valid', kernel_initializer='he_uniform')(x_gru)
+    avg_pool1_gru = GlobalAveragePooling1D()(x2)
+    max_pool1_gru = GlobalMaxPooling1D()(x2)
 
     x3 = Conv1D(conv_size, kernel_size=kernel_size2, padding='valid', kernel_initializer='he_uniform')(x_gru)
     avg_pool3_gru = GlobalAveragePooling1D()(x3)
@@ -108,10 +159,10 @@ def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kern
     model = load_model(file_path)
     return model
 
-
-LSTM_CNN_model = build_model1(lr=1e-3, lr_d=1e-10, units=64, spatial_dr=0.3, kernel_size1=3, kernel_size2=2,
-                              dense_units=32, dr=0.1, conv_size=32)
+LSTM_CNN_model = build_model2(lr=1e-3, lr_d=1e-10, units=64, spatial_dr=0.3, kernel_size1=3, kernel_size2=2,
+                              dense_units=32, dr=0.3, conv_size=32)
 loss, acc = LSTM.evaluate(test_tokenized, y=test_df['Star'], batch_size=384, verbose=1)
 print("Test loss: %f, accuracy: %f on LSTM_CNN_embedding_only", loss, acc)
+
 
 
