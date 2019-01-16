@@ -37,13 +37,13 @@ FLAGS = tf.flags.FLAGS
 dir(FLAGS)
 #FLAGS._parse_flags()
 
-def idx_matrix():
+def idx_matrix():                               # open word2vec
     with open('data/sgns.wiki.word') as f:
         reader = csv.reader(f)
         for row in reader:
             str2idx[row[0]] = line
             line += 1
-            word2Matrix.append(row[1:])
+            word2Matrix.append(row[1:])         # construct a matrix for every word in the word2vec
         word2Matrix = np.array(word2Matrix, type = np.float32)
     return str2idx, word2Matrix
 
