@@ -37,12 +37,14 @@ tk.fit_on_texts(train_df['Comment'])
 
 train_tokenized = tk.texts_to_sequences(train_df['Comment'])
 test_tokenized = tk.texts_to_sequences(test_df['Comment'])
-
-#print(train_tokenized[1])
 print("Tokenize complete")
 
 X_train = pad_sequences(train_tokenized, maxlen=MAX_NB_WORDS)  # pad all sentence to same length
 X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
+
+ohe = OneHotEncoder(sparse=False)
+y_ohe = ohe.fit_transform(train_df['Star'].values.reshape(-1,1))
+print('One hot encoding complete')
 
 word_index = tk.word_index  # num of words appeared
 nb_words = min(MAX_NB_FEATURES, len(word_index))
@@ -62,8 +64,6 @@ for word, i in word_index.items():
         embedding_matrix[i] = embedding_vector
 print("Embedding matrix completed")
 
-ohe = OneHotEncoder(sparse=False)
-y_ohe = ohe.fit_transform(train_df['Star'])
 
 def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kernel_size2=2, dense_units=128, dr=0.1,
                  conv_size=32):
