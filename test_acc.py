@@ -48,7 +48,7 @@ print('One hot encoding complete')
 
 pred_model = load_model(MODEL_NAME + '.hdf5')
 pred = pred_model.predict(X_test, batch_size=384, verbose=1)
-print(y_ohe[5])
+print(y_ohe[5], pred[5], pred[4], test_df['Star'][i])
 wrong_indices = [i for i, v in enumerate(pred) if pred[i] != test_df['Star'][i]]
 
 
