@@ -18,9 +18,14 @@ from sklearn.preprocessing import OneHotEncoder
 
 WORKING_FOLDER = os.curdir
 EMBEDDING_NAME = "sgns.weibo.word"
+MAX_NB_WORDS = 500  # length of seq
+EMBEDDING_DIM = 300  # length of embedding
+MAX_NB_FEATURES = 500000  # max number of words in use
+
+########################################################################
 
 train_df = pd.read_csv(WORKING_FOLDER + '/DMSC_train.csv')
-test_df = pd.read_csv(WORKING_FOLDER+ '/DMSC_test.csv')
+test_df = pd.read_csv(WORKING_FOLDER + '/DMSC_test.csv')
 print("Data read successfully")
 
 tk = Tokenizer()
@@ -31,9 +36,6 @@ test_tokenized = tk.texts_to_sequences(test_df['comment'])
 
 print("Tokenize complete")
 
-MAX_NB_WORDS = 500  # length of seq
-EMBEDDING_DIM = 300  # length of embedding
-MAX_NB_FEATURES = 500000  # max number of words in use
 
 X_train = pad_sequences(train_tokenized, maxlen=MAX_NB_WORDS)  # pad all sentence to same length
 X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
@@ -43,8 +45,9 @@ nb_words = min(MAX_NB_FEATURES, word_index)
 print("word index = %d", word_index)
 print("# of words = %d", nb_words)
 
-def get_coefs(word,*arr): return word, np.asarray(arr, dtype='float32')
-embedding_index = dict(get_coefs(*o.strip().split(" ")) for o in open(WORKING_FOLDER+'/'+EMBEDDING_NAME))
+
+def get_coefs(word, *arr): return word, np.asarray(arr, dtype='float32')
+embedding_index = dict(get_coefs(*o.strip().split(" ")) for o in open(WORKING_FOLDER + '/' + EMBEDDING_NAME))
 
 embedding_matrix = np.zeros((nb_words + 1, EMBEDDING_DIM))
 for word, i in word_index.items():
@@ -54,7 +57,6 @@ for word, i in word_index.items():
     if embedding_vector is not None:
         embedding_matrix[i] = embedding_vector
 print("eEbedding matrix completed")
-
 
 ohe = OneHotEncoder(sparse=False)
 y_ohe = ohe.fit_transform(train_df['star'].reshape(-1, 1))
@@ -103,7 +105,8 @@ def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kern
     model = load_model(file_path)
     return model
 
-LSTM_CNN_model = build_model1(lr = 1e-3, lr_d = 1e-10, units = 64, spatial_dr = 0.3, kernel_size1=3, kernel_size2=2, dense_units=32, dr=0.1, conv_size=32)
-loss, acc = LSTM.evaluate(test_tokenized, y = test_df['star'], batch_size=384, verbose=1)
-print("Test loss: %f, accuracy: %f", loss, acc)
 
+LSTM_CNN_model = build_model1(lr=1e-3, lr_d=1e-10, units=64, spatial_dr=0.3, kernel_size1=3, kernel_size2=2,
+                              dense_units=32, dr=0.1, conv_size=32)
+loss, acc = LSTM.evaluate(test_tokenized, y=test_df['star'], batch_size=384, verbose=1)
+print("Test loss: %f, accuracy: %f", loss, acc)

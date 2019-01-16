@@ -9,6 +9,6 @@ echo "{\"username\":\"archonsh\",\"key\":\"9969e262455eda17e17564ab5c5efa6a\"}" 
 chmod 600 ~/.kaggle/kaggle.json
 
 cd ~
-kg datasets download -d utmhikari/doubanmovieshortcomments
+kaggle datasets download -d utmhikari/doubanmovieshortcomments
 unzip doubanmovieshortcomments.zip
 rm doubanmovieshortcomments.zip
