@@ -47,7 +47,7 @@ y_ohe = ohe.fit_transform(test_df['Star'].values.reshape(-1,1))
 print('One hot encoding complete')
 
 pred_model = load_model(MODEL_NAME + '.hdf5')
-pred = pred_model.predict(X_test, y=y_ohe, batch_size=384, verbose=1)
+pred = pred_model.predict(X_test, batch_size=384, verbose=1)
 wrong_indices = [i for i, v in enumerate(pred) if pred[i]!=y_ohe[i]]
 
 acc = (1 - len(wrong_indices)) / float(len(y_ohe))
