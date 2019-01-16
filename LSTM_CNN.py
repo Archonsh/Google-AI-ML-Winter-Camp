@@ -20,9 +20,7 @@ WORKING_FOLDER = os.curdir
 EMBEDDING_NAME = "sgns.weibo.word"
 
 train_df = pd.read_csv(WORKING_FOLDER + '/DMSC_train.csv')
-test_df = train_df.sample(frac=0.15, random_state=12345678)
-train_df = train_df.drop(test_df)
-
+test_df = pd.read_csv(WORKING_FOLDER+ '/DMSC_test.csv')
 print("Data read successfully")
 
 tk = Tokenizer()
@@ -55,6 +53,7 @@ for word, i in word_index.items():
     embedding_vector = embedding_index.get(word)  #
     if embedding_vector is not None:
         embedding_matrix[i] = embedding_vector
+print("eEbedding matrix completed")
 
 
 ohe = OneHotEncoder(sparse=False)
@@ -106,5 +105,5 @@ def build_model1(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kern
 
 LSTM_CNN_model = build_model1(lr = 1e-3, lr_d = 1e-10, units = 64, spatial_dr = 0.3, kernel_size1=3, kernel_size2=2, dense_units=32, dr=0.1, conv_size=32)
 loss, acc = LSTM.evaluate(test_tokenized, y = test_df['star'], batch_size=384, verbose=1)
-print("Test loss: %f  accuracy: %f", loss, acc)
+print("Test loss: %f, accuracy: %f", loss, acc)
 
