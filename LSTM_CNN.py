@@ -36,16 +36,16 @@ tk.fit_on_texts(train_df['Comment'])
 train_tokenized = tk.texts_to_sequences(train_df['Comment'])
 test_tokenized = tk.texts_to_sequences(test_df['Comment'])
 
+print(train_tokenized[1])
 print("Tokenize complete")
-
 
 X_train = pad_sequences(train_tokenized, maxlen=MAX_NB_WORDS)  # pad all sentence to same length
 X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
 
 word_index = tk.word_index  # num of words appeared
 nb_words = min(MAX_NB_FEATURES, len(word_index))
-print("word index = %d", len(word_index))
-print("# of words = %d", nb_words)
+print("word index = %d" % len(word_index))
+print("# of words = %d" % nb_words)
 
 
 def get_coefs(word, *arr): return word, np.asarray(arr, dtype='float32')
