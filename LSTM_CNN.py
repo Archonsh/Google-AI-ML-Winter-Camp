@@ -161,7 +161,7 @@ def build_model2(lr=0.0, lr_d=0.0, units=0, spatial_dr=0.0, kernel_size1=3, kern
 
 LSTM_CNN_model = build_model2(lr=1e-3, lr_d=1e-10, units=64, spatial_dr=0.3, kernel_size1=3, kernel_size2=2,
                               dense_units=32, dr=0.3, conv_size=32)
-loss, acc = LSTM.evaluate(test_tokenized, y=test_df['Star'], batch_size=384, verbose=1)
+loss, acc = LSTM_CNN_model.evaluate(test_tokenized, y=test_df['Star'], batch_size=384, verbose=1)
 print("Test loss: %f, accuracy: %f on LSTM_CNN_embedding_only", loss, acc)
 
 
