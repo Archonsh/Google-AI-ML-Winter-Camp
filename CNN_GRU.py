@@ -93,7 +93,7 @@ def CNN_GRU_model(lr=0.003, lr_d=10e-9, units=64, spatial_dr=0.2, kernel_size1=2
     x = Dropout(dr)(Dense(int(dense_units / 2), activation='relu')(x))
     x = Dense(5, activation="sigmoid")(x)
     model = Model(inputs=inp, outputs=x)
-    model.compile(loss="binary_crossentropy", optimizer=Adam(lr=lr, decay=lr_d), metrics=["accuracy"])
+    model.compile(loss="binary_crossentropy", optimizer=Adam(lr=lr, decay=lr_d), metrics=["categorical_accuracy"])
     history = model.fit(X_train, y_ohe, batch_size=128, epochs=20, validation_split=0.1,
                         verbose=1, callbacks=[check_point, early_stop])
     model = load_model(file_path)
