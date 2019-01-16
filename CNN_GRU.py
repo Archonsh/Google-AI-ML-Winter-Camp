@@ -75,13 +75,13 @@ def CNN_GRU_model(lr=10e-3, lr_d=10e-9, units=64, spatial_dr=0.2, kernel_size1=2
     x1 = SpatialDropout1D(spatial_dr)(x)
 
     x2 = Conv1D(conv_size, kernel_size=kernel_size1, padding='same', kernel_initializer='he_uniform')(x1)
-    max_pool3_conv2 = MaxPooling1D(padding='same')(x2)
+    max_pool3_conv2 = MaxPooling1D()(x2)
 
     x3 = Conv1D(conv_size, kernel_size=kernel_size2, padding='same', kernel_initializer='he_uniform')(x1)
-    max_pool3_conv3 = MaxPooling1D(padding='same')(x3)
+    max_pool3_conv3 = MaxPooling1D()(x3)
 
     x5 = Conv1D(conv_size, kernel_size=kernel_size3, padding='same', kernel_initializer='he_uniform')(x1)
-    max_pool3_conv5 = MaxPooling1D(padding='same')(x5)
+    max_pool3_conv5 = MaxPooling1D()(x5)
 
     x = concatenate([max_pool3_conv2, max_pool3_conv3, max_pool3_conv5])
 
