@@ -94,6 +94,7 @@ def build_model_CNN_only(lr=1e-3, lr_d=1e-10, spatial_dr=0.3, kernel_size2=2, ke
     #                  avg_pool3_conv5, max_pool3_conv5])
     x = concatenate([max_pool3_conv2, max_pool3_conv3, max_pool3_conv5])
     x = BatchNormalization()(x)
+    x = Flatten()(x)
     x = Dropout(dr)(Dense(dense_units, activation='relu')(x))
     x = BatchNormalization()(x)
     x = Dropout(dr)(Dense(int(dense_units / 2), activation='relu', kernel_regularizer=regularizers.l2(0.01), bias_regularizer=regularizers.l2(0.01))(x))
