@@ -42,27 +42,38 @@ def test_acc():
     X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
 
     M = ['CNN_GRU_20ep_MODEL.hdf5','CNN_ONLY_MODEL_SOFTMAX_L2_conv64.hdf5', 'LTSM_CNN_MODEL.hdf5', 'PARALLEL_LTSM_GRU_BEST_MODEL.hdf5']
-    emsemble = [[] for i in range(len(X_test))]
+    esmed = False
+
 
     for MODEL_NAME in M:
         pred_model = load_model(MODEL_NAME)
         pred = pred_model.predict(X_test, batch_size=384, verbose=1)
+        if not esmed:
+            esmed = True
+            pred_esm = pred
+        else:
+            pred_esm += pred
         arg_rank = np.argsort(-pred, axis=1)
 
-        with open(MODEL_NAME+'.csv', 'w') as f:
-            wt = csv.writer(f)
-            for i in range(len(arg_rank)):
-                wt.writerow(arg_rank[i])
-                emsemble[i].append(arg_rank[0]+1)
+        # with open(MODEL_NAME+'.csv', 'w') as f:
+        #     wt = csv.writer(f)
+        #     for i in range(len(arg_rank)):
+        #         wt.writerow(arg_rank[i])
 
-    pred = []
-    wrong = 0
-    for i in range(len(emsemble)):
-        if max(emsemble[i], key=emsemble[i].count) != test_df['Star'][i]:
-            wrong+=1
 
-    print("Test accuracy: %f " % (float(wrong) / len(emsemble)) )
+    pred_esm /= 4
 
+    wrong_indices = [i for i, v in enumerate(pred_esm) if arg_rank[i][0]+1 != test_df['Star'][i]]
+    wrong_indices_2 = [i for i, v in enumerate(pred_esm) if
+                       arg_rank[i][0]+1 != test_df['Star'][i] and arg_rank[i][1]+1 != test_df['Star'][i]]
+
+    acc = 1 - len(wrong_indices) / float(len(X_test))
+    acc_2 = 1 - len(wrong_indices_2) / float(len(X_test))
+
+    print("Test accuracy: %f " % (acc))
+    print("Top 2 accuracy: %f" % acc_2)
+    print("------------------------------------------------")
+    print("------------------------------------------------")
 
 
 if __name__ == '__main__':
