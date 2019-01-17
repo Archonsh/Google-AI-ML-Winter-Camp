@@ -93,9 +93,9 @@ def build_model_CNN_only(lr=1e-3, lr_d=1e-10, spatial_dr=0.3, kernel_size2=2, ke
     x = Dropout(dr)(Dense(dense_units, activation='relu')(x))
     x = BatchNormalization()(x)
     x = Dropout(dr)(Dense(int(dense_units / 2), activation='relu')(x))
-    x = Dense(5, activation="sigmoid")(x)
+    x = Dense(5, activation="softmax")(x)
     model = Model(inputs=inp, outputs=x)
-    model.compile(loss="binary_crossentropy", optimizer=Adam(lr=lr, decay=lr_d), metrics=["categorical_accuracy"])
+    model.compile(loss="categorical_crossentropy", optimizer=Adam(lr=lr, decay=lr_d), metrics=["categorical_accuracy"])
     history = model.fit(X_train, y_ohe, batch_size=128, epochs=20, validation_split=0.1,
                         verbose=1, callbacks=[check_point, early_stop])
     model = load_model(file_path)
