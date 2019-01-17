@@ -9,7 +9,7 @@ WORKING_FOLDER = os.curdir
 def print_model(MODEL_NAME):
     print("Working folder %s" % WORKING_FOLDER)
     pred_model = load_model(MODEL_NAME)
-    plot_model(pred_model, to_file=MODEL_NAME+'.png', dpi=300)
+    plot_model(pred_model, to_file=MODEL_NAME+'.png')
     pred_model.summary()
 
 if __name__ == '__main__':

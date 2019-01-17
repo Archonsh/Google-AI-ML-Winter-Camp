@@ -47,7 +47,7 @@ def test_acc(MODEL_NAME):
 
     pred_model = load_model(MODEL_NAME)
     pred = pred_model.predict(X_test, batch_size=384, verbose=1)
-    plot_model(pred_model, to_file=MODEL_NAME+'.png', dpi=300)
+    plot_model(pred_model, to_file=MODEL_NAME+'.png')
 
     # print(y_ohe[5], argmax(pred[5]), test_df['Star'][5])
     arg_rank = np.argsort(-pred, axis=1)
