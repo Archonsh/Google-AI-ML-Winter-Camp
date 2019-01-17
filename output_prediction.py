@@ -42,16 +42,26 @@ def test_acc():
     X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
 
     M = ['CNN_GRU_20ep_MODEL.hdf5','CNN_ONLY_MODEL_SOFTMAX_L2_conv64.hdf5', 'LTSM_CNN_MODEL.hdf5', 'PARALLEL_LTSM_GRU_BEST_MODEL.hdf5']
+    emsemble = [[] for i in range(len(X_test))]
 
     for MODEL_NAME in M:
         pred_model = load_model(MODEL_NAME)
         pred = pred_model.predict(X_test, batch_size=384, verbose=1)
         arg_rank = np.argsort(-pred, axis=1)
 
-        with open('test.csv', 'w') as f:
+        with open(MODEL_NAME+'.csv', 'w') as f:
             wt = csv.writer(f)
             for i in range(len(arg_rank)):
                 wt.writerow(arg_rank[i])
+                emsemble[i].append(arg_rank[0]+1)
+
+    pred = []
+    wrong = 0
+    for i in range(len(emsemble)):
+        if max(emsemble[i], key=emsemble[i].count) != test_df['Star'][i]:
+            wrong+=1
+
+    print("Test accuracy: %f " % (float(wrong) / len(emsemble)) )
 
 
 
