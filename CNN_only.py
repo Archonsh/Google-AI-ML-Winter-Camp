@@ -67,7 +67,7 @@ print("Embedding matrix completed")
 
 def build_model_CNN_only(lr=1e-3, lr_d=1e-10, spatial_dr=0.3, kernel_size2=2, kernel_size3=3, kernel_size5=5,
                          dense_units=128, dr=0.4, conv_size=32):
-    file_path = "CNN_ONLY_MODEL_SOFTMAX.hdf5"
+    file_path = "CNN_ONLY_MODEL_SOFTMAX_maxpoolonly.hdf5"
     check_point = ModelCheckpoint(file_path, monitor="val_loss", verbose=1, save_best_only=True, mode="min")
     early_stop = EarlyStopping(monitor="val_loss", mode="min", patience=3)
 
@@ -76,19 +76,23 @@ def build_model_CNN_only(lr=1e-3, lr_d=1e-10, spatial_dr=0.3, kernel_size2=2, ke
     x1 = SpatialDropout1D(spatial_dr)(x)
 
     x2 = Conv1D(conv_size, kernel_size=kernel_size2, padding='valid', kernel_initializer='he_uniform')(x1)
-    avg_pool3_conv2 = GlobalAveragePooling1D()(x2)
-    max_pool3_conv2 = GlobalMaxPooling1D()(x2)
+    # avg_pool3_conv2 = GlobalAveragePooling1D()(x2)
+    # max_pool3_conv2 = GlobalMaxPooling1D()(x2)
+    max_pool3_conv2 = MaxPooling1D()(x2)
 
     x3 = Conv1D(conv_size, kernel_size=kernel_size3, padding='valid', kernel_initializer='he_uniform')(x1)
-    avg_pool3_conv3 = GlobalAveragePooling1D()(x3)
-    max_pool3_conv3 = GlobalMaxPooling1D()(x3)
+    # avg_pool3_conv3 = GlobalAveragePooling1D()(x3)
+    # max_pool3_conv3 = GlobalMaxPooling1D()(x3)
+    max_pool3_conv3 = MaxPooling1D()(x3)
 
     x5 = Conv1D(conv_size, kernel_size=kernel_size5, padding='valid', kernel_initializer='he_uniform')(x1)
-    avg_pool3_conv5 = GlobalAveragePooling1D()(x5)
-    max_pool3_conv5 = GlobalMaxPooling1D()(x5)
+    # avg_pool3_conv5 = GlobalAveragePooling1D()(x5)
+    # max_pool3_conv5 = GlobalMaxPooling1D()(x5)
+    max_pool3_conv5 = MaxPooling1D()(x5)
 
-    x = concatenate([avg_pool3_conv2, max_pool3_conv2, avg_pool3_conv3, max_pool3_conv3,
-                     avg_pool3_conv5, max_pool3_conv5])
+    # x = concatenate([avg_pool3_conv2, max_pool3_conv2, avg_pool3_conv3, max_pool3_conv3,
+    #                  avg_pool3_conv5, max_pool3_conv5])
+    x = concatenate([max_pool3_conv2, max_pool3_conv3, max_pool3_conv5])
     x = BatchNormalization()(x)
     x = Dropout(dr)(Dense(dense_units, activation='relu')(x))
     x = BatchNormalization()(x)
