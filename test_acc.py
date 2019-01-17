@@ -61,8 +61,10 @@ def test_acc(MODEL_NAME):
     print("------------------------------------------------")
     print("------------------------------------------------")
     print("Below is selections of wrongly predicted points:")
-    for i in wrong_indices[:10]:
-        print("predicted: %d  real: %d" % (arg_rank[i][0]+1, test_df['Star'][i]))
+
+    for i in wrong_indices[:50]:
+        print("predicted: %d  real: %d" % (arg_rank[i][0] + 1, test_df['Star'][i]))
+    for i in wrong_indices[:50]:
         print(test_df['Comment'][i])
 
 if __name__ == '__main__':
