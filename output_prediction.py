@@ -41,7 +41,7 @@ def test_acc():
 
     X_test = pad_sequences(test_tokenized, maxlen=MAX_NB_WORDS)
 
-    M = ['CNN_GRU_20ep_MODEL.hdf5','CNN_ONLY_MODEL_SOFTMAX_L2_conv64.hdf5 ', 'LTSM_CNN_MODEL.hdf5', 'PARALLEL_LTSM_GRU_BEST_MODEL.hdf5']
+    M = ['CNN_GRU_20ep_MODEL.hdf5','CNN_ONLY_MODEL_SOFTMAX_L2_conv64.hdf5', 'LTSM_CNN_MODEL.hdf5', 'PARALLEL_LTSM_GRU_BEST_MODEL.hdf5']
 
     for MODEL_NAME in M:
         pred_model = load_model(MODEL_NAME)
@@ -52,6 +52,7 @@ def test_acc():
             wt = csv.writer(f)
             for i in range(len(arg_rank)):
                 wt.writerow(arg_rank[i])
+
 
 
 if __name__ == '__main__':
