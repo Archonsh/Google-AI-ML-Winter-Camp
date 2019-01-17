@@ -67,7 +67,7 @@ print("Embedding matrix completed")
 
 def build_model_CNN_only(lr=1e-3, lr_d=1e-10, spatial_dr=0.3, kernel_size2=2, kernel_size3=3, kernel_size5=5,
                          dense_units=128, dr=0.4, conv_size=32):
-    file_path = "CNN_ONLY_MODEL.hdf5"
+    file_path = "CNN_ONLY_MODEL_SOFTMAX.hdf5"
     check_point = ModelCheckpoint(file_path, monitor="val_loss", verbose=1, save_best_only=True, mode="min")
     early_stop = EarlyStopping(monitor="val_loss", mode="min", patience=3)
 
