@@ -75,17 +75,17 @@ def build_model_CNN_only(lr=1e-3, lr_d=1e-10, spatial_dr=0.3, kernel_size2=2, ke
     x = Embedding(nb_words + 1, EMBEDDING_DIM, weights=[embedding_matrix], trainable=False)(inp)
     x1 = SpatialDropout1D(spatial_dr)(x)
 
-    x2 = Conv1D(conv_size, kernel_size=kernel_size2, padding='valid', kernel_initializer='he_uniform')(x1)
+    x2 = Conv1D(conv_size, kernel_size=kernel_size2, padding='same', kernel_initializer='he_uniform')(x1)
     # avg_pool3_conv2 = GlobalAveragePooling1D()(x2)
     # max_pool3_conv2 = GlobalMaxPooling1D()(x2)
     max_pool3_conv2 = MaxPooling1D()(x2)
 
-    x3 = Conv1D(conv_size, kernel_size=kernel_size3, padding='valid', kernel_initializer='he_uniform')(x1)
+    x3 = Conv1D(conv_size, kernel_size=kernel_size3, padding='same', kernel_initializer='he_uniform')(x1)
     # avg_pool3_conv3 = GlobalAveragePooling1D()(x3)
     # max_pool3_conv3 = GlobalMaxPooling1D()(x3)
     max_pool3_conv3 = MaxPooling1D()(x3)
 
-    x5 = Conv1D(conv_size, kernel_size=kernel_size5, padding='valid', kernel_initializer='he_uniform')(x1)
+    x5 = Conv1D(conv_size, kernel_size=kernel_size5, padding='same', kernel_initializer='he_uniform')(x1)
     # avg_pool3_conv5 = GlobalAveragePooling1D()(x5)
     # max_pool3_conv5 = GlobalMaxPooling1D()(x5)
     max_pool3_conv5 = MaxPooling1D()(x5)
